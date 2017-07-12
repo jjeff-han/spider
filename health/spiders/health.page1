@@ -1,0 +1,16 @@
+
+
+import scrapy
+
+class health39(scrapy.Spider):
+    name = "health"
+    allowed_domains = ['39.net']
+    start_urls = ["http://jbk.39.net/bw/huxineike_t1/",
+            ]
+
+    def parse(self, response):
+        for hel in response.xpath('//div[@id="res_tab_2"]/div[@class="res_list"]'):
+            yield {'url':hel.xpath('./dl/dt/h3/a/@href').extract_first(),
+                    'name':hel.xpath('./dl/dt/h3/a/text()').extract_first(),
+                    'descript':hel.xpath('./dl/dd/text()').extract_first()
+            }
